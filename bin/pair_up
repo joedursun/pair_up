@@ -7,6 +7,13 @@ CURRENT_VIM_DIR=$HOME/.vim
 CURRENT_EMACS_INIT=$HOME/.emacs
 CURRENT_EMACS_D=$HOME/.emacs.d
 
+usage(){
+    echo "Usage:"
+    echo "pair_up load_env ENV_NAME"
+    echo "pair_up backup "
+    echo "        # copy vim and emacs config files to $BACKUP_EDITOR_CONFIG_HOME"
+}
+
 backup_default_env(){
 
     if [ ! -d $BACKUP_EDITOR_CONFIG_HOME ]; then
@@ -64,7 +71,12 @@ load_emacs_env(){
     fi
 }
 
-load_env(){
+load(){
+    if [ $# -lt 1 ]; then
+        usage
+        exit 1
+    fi
+
     env_to_load=$1
     partner_dir="$PAIR_UP_HOME/envs/$env_to_load"
 
@@ -74,14 +86,22 @@ load_env(){
     fi
 }
 
-unpair(){
+reset(){
     load_vim_env "default"
     load_emacs_env "default"
 }
 
-# TODO: modify script to take in args that describe the function to call
-#  e.g. pair_up backup_default_env
-# e.g. pair_up load_env sam
-
-
-
+case $1 in
+    load)
+        load $2
+        ;;
+    reset)
+        reset
+    ;;
+    backup)
+        backup_default_env
+    ;;
+    *)
+        usage
+    ;;
+esac
