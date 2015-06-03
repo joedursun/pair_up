@@ -1,4 +1,4 @@
-# necessary env variables
+#! /usr/bin/env sh
 
 PAIR_UP_HOME=$HOME/.pair_up
 BACKUP_EDITOR_CONFIG_HOME=$HOME/.pair_up/envs/default
