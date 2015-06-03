@@ -1,6 +1,10 @@
 Pair_Up is a tool to swap out vim and emacs config files easily.
 Typical use case is for people who pair with others and want to allow them to use their own setup.
 
+Warning:
+
+Backup your vim and emacs files before using this script. It should automatically backup your files before performing any actions, but it's possible for something to go wrong along the way.
+
 Usage:
 
 Assuming `$HOME/bin` is in your path -
