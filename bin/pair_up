@@ -64,7 +64,7 @@ load_emacs_env(){
     fi
 }
 
-pair_up(){
+load_env(){
     env_to_load=$1
     partner_dir="$PAIR_UP_HOME/envs/$env_to_load"
 
@@ -78,3 +78,10 @@ unpair(){
     load_vim_env "default"
     load_emacs_env "default"
 }
+
+# TODO: modify script to take in args that describe the function to call
+#  e.g. pair_up backup_default_env
+# e.g. pair_up load_env sam
+
+
+
