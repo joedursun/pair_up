@@ -47,12 +47,13 @@ load_vim_env(){
     vim_dir="$PAIR_UP_HOME/envs/$1/.vim"
 
     if [ -d $vim_dir ]; then
-        ln -s -f $vim_dir $HOME/.vim
-    else
-        echo "$vim_dir does not exist"
+        echo "symlinking $vim_dir to $HOME/.vim"
+        rm -rf $HOME/.vim
+        ln -s $vim_dir $HOME/.vim
     fi
 
     if [ -f $vimrc ]; then
+        echo "symlinking $vimrc to $HOME/.vimrc"
         ln -s -f $vimrc $HOME/.vimrc
     fi
 }
@@ -63,10 +64,12 @@ load_emacs_env(){
     emacs_d="$PAIR_UP_HOME/envs/$1/.emacs.d"
 
     if [ -d $emacs_d ]; then
+        echo "symlinking $emacs_d to $HOME/.emacs.d"
         ln -s -f $emacs_d $HOME/.emacs.d
     fi
 
     if [ -f $emacs_init ]; then
+        echo echo "symlinking $emacs_init to $HOME/.emacs"
         ln -s -f $emacs_init $HOME/.emacs
     fi
 }
@@ -75,6 +78,10 @@ load(){
     if [ $# -lt 1 ]; then
         usage
         exit 1
+    fi
+
+    if [ ! -d $BACKUP_EDITOR_CONFIG_HOME ]; then
+        backup_default_env
     fi
 
     env_to_load=$1
@@ -91,6 +98,11 @@ reset(){
     load_emacs_env "default"
 }
 
+create(){
+    # clone repo in the proper env dir
+    exit
+}
+
 case $1 in
     load)
         load $2
@@ -100,6 +112,9 @@ case $1 in
     ;;
     backup)
         backup_default_env
+    ;;
+    create)
+        create $@
     ;;
     *)
         usage
