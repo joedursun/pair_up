@@ -12,6 +12,8 @@ usage(){
     echo "pair_up load_env ENV_NAME"
     echo "pair_up backup "
     echo "        # copy vim and emacs config files to $BACKUP_EDITOR_CONFIG_HOME"
+    echo "pair_up create joe git@github.com:joedursun/emacs.d.git"
+    echo "        # clone the given repo into $HOME/.pair_up/envs/joe/"
 }
 
 backup_default_env(){
@@ -65,6 +67,7 @@ load_emacs_env(){
 
     if [ -d $emacs_d ]; then
         echo "symlinking $emacs_d to $HOME/.emacs.d"
+        rm -rf $HOME/.emacs.d
         ln -s -f $emacs_d $HOME/.emacs.d
     fi
 
@@ -100,7 +103,16 @@ reset(){
 
 create(){
     # clone repo in the proper env dir
-    exit
+    env_name=$2
+    repo_location=$3
+
+    name_regexp=".+\/([^\/]+).git"
+    [[ $repo_location =~ $name_regexp ]]
+    repo_name=${BASH_REMATCH[1]}
+
+    destination=$PAIR_UP_HOME/envs/$env_name/$repo_name
+    echo "cloning repo $repo_location into $destination"
+    git clone $repo_location $destination
 }
 
 case $1 in
