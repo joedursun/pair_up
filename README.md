@@ -12,13 +12,12 @@ Usage:
 Assuming `$HOME/bin` is in your path -
 
 1. `ln -s /path/to/pair_up/bin/pair_up $HOME/bin/`
-2. `pair_up backup`
-3. You'll now have the following directory: `$HOME/.pair_up/envs/default/` containing your .emacs.d, .emacs, .vim, and .vimrc files
-4. `cd $HOME/.pair_up/envs/ && mkdir joe && git clone git@github.com:joedursun/emacs.d.git joe/.emacs.d`
-5. Now running `pair_up joe` will symlink `$HOME/.pair_up/envs/joe/.emacs.d` to `$HOME/.emacs.d`
-6. Switch back to your regular configuration by running `pair_up reset`
+2. Backup your editor config files by running `pair_up backup`. You'll now have the following directory: `$HOME/.pair_up/envs/default/` containing your .emacs.d, .emacs, .vim, and .vimrc files (backup automatically occurs when loading an env if `$HOME/.pair_up/envs/default/` doesn't exist)
+3. Create a new environment named `joe` from the repo https://github.com/joedursun/emacs.d:
+    - `pair_up create joe git@github.com:joedursun/emacs.d.git joe/.emacs.d`
+4. Now running `pair_up joe` will symlink `$HOME/.pair_up/envs/joe/.emacs.d` to `$HOME/.emacs.d`
+5. Switch back to your original configuration by running `pair_up reset`
 
 Typical Workflow:
 -----------------
-`pair_up` is best used in conjunction with [tmate](http://tmate.io/). Start a tmate session for your friend to join, clone their editor configs, and load their config environment.
-
+`pair_up` is best used in conjunction with [tmate](http://tmate.io/). Start a tmate session for your friend to join, create an environment for them, and load the environment for them to use.

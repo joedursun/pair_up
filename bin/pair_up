@@ -12,7 +12,7 @@ usage(){
     echo "pair_up load_env ENV_NAME"
     echo "pair_up backup "
     echo "        # copy vim and emacs config files to $BACKUP_EDITOR_CONFIG_HOME"
-    echo "pair_up create joe git@github.com:joedursun/emacs.d.git"
+    echo "pair_up create joe git@github.com:joedursun/.emacs.d.git"
     echo "        # clone the given repo into $HOME/.pair_up/envs/joe/"
 }
 
@@ -29,7 +29,7 @@ backup_default_env(){
     do
         if [ -f $file_name ]; then
             echo "backing up $file_name"
-            cp $file_name $BACKUP_EDITOR_CONFIG_HOME
+            cp -f $file_name $BACKUP_EDITOR_CONFIG_HOME
         fi
     done
 
@@ -37,7 +37,7 @@ backup_default_env(){
     do
         if [ -d $dir ]; then
             echo "backing up $dir"
-            cp -r $dir $BACKUP_EDITOR_CONFIG_HOME
+            cp -rf $dir $BACKUP_EDITOR_CONFIG_HOME
         fi
     done
 
