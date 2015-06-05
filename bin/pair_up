@@ -9,11 +9,13 @@ CURRENT_EMACS_D=$HOME/.emacs.d
 
 usage(){
     echo "Usage:"
-    echo "pair_up load_env ENV_NAME"
+    echo "pair_up load ENV_NAME"
     echo "pair_up backup "
     echo "        # copy vim and emacs config files to $BACKUP_EDITOR_CONFIG_HOME"
     echo "pair_up create joe git@github.com:joedursun/.emacs.d.git"
     echo "        # clone the given repo into $HOME/.pair_up/envs/joe/"
+    echo "pair_up update [ENV_NAME]"
+    echo "        # update pair_up tool; if ENV_NAME is provided, then update that env only"
 }
 
 backup_default_env(){
@@ -115,6 +117,21 @@ create(){
     git clone $repo_location $destination
 }
 
+implode(){
+    rm -rf .pair_up
+    exit
+}
+
+update(){
+    repo_to_update=$HOME/.pair_up
+    env_name=$1
+    if [ $1 ]; then
+        repo_to_update=$(find $HOME/.pair_up/envs/$env_name -name .git | sed 's/\.git$//')
+    fi
+    echo "Updating $repo_to_update"
+    cd $repo_to_update && git pull --rebase origin master
+}
+
 case $1 in
     load)
         load $2
@@ -127,6 +144,12 @@ case $1 in
     ;;
     create)
         create $@
+    ;;
+    update)
+        update $2
+    ;;
+    implode)
+        implode
     ;;
     *)
         usage
