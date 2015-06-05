@@ -14,7 +14,7 @@ Assuming `$HOME/bin` is in your path -
 1. `ln -s /path/to/pair_up/bin/pair_up $HOME/bin/`
 2. Backup your editor config files by running `pair_up backup`. You'll now have the following directory: `$HOME/.pair_up/envs/default/` containing your .emacs.d, .emacs, .vim, and .vimrc files (backup automatically occurs when loading an env if `$HOME/.pair_up/envs/default/` doesn't exist)
 3. Create a new environment named `joe` from the repo https://github.com/joedursun/emacs.d:
-    - `pair_up create joe git@github.com:joedursun/emacs.d.git joe/.emacs.d`
+    - `pair_up create joe git@github.com:joedursun/.emacs.d.git`
 4. Now running `pair_up joe` will symlink `$HOME/.pair_up/envs/joe/.emacs.d` to `$HOME/.emacs.d`
 5. Switch back to your original configuration by running `pair_up reset`
 
