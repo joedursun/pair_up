@@ -1,7 +1,7 @@
 #! /usr/bin/env sh
 
-PAIR_UP_HOME=$HOME/.pair_up
-BACKUP_EDITOR_CONFIG_HOME=$HOME/.pair_up/envs/default
+TMUP_HOME=$HOME/.tmup
+BACKUP_EDITOR_CONFIG_HOME=$HOME/.tmup/envs/default
 CURRENT_VIMRC=$HOME/.vimrc
 CURRENT_VIM_DIR=$HOME/.vim
 CURRENT_EMACS_INIT=$HOME/.emacs
@@ -9,13 +9,13 @@ CURRENT_EMACS_D=$HOME/.emacs.d
 
 usage(){
     echo "Usage:"
-    echo "pair_up load ENV_NAME"
-    echo "pair_up backup "
+    echo "tmup load ENV_NAME"
+    echo "tmup backup "
     echo "        # copy vim and emacs config files to $BACKUP_EDITOR_CONFIG_HOME"
-    echo "pair_up create joe git@github.com:joedursun/.emacs.d.git"
-    echo "        # clone the given repo into $HOME/.pair_up/envs/joe/"
-    echo "pair_up update [ENV_NAME]"
-    echo "        # update pair_up tool; if ENV_NAME is provided, then update that env only"
+    echo "tmup create joe git@github.com:joedursun/.emacs.d.git"
+    echo "        # clone the given repo into $HOME/.tmup/envs/joe/"
+    echo "tmup update [ENV_NAME]"
+    echo "        # update tmup tool; if ENV_NAME is provided, then update that env only"
 }
 
 backup_default_env(){
@@ -47,8 +47,8 @@ backup_default_env(){
 
 load_vim_env(){
     # $1 - name of directory containing environment to load
-    vimrc="$PAIR_UP_HOME/envs/$1/.vimrc"
-    vim_dir="$PAIR_UP_HOME/envs/$1/.vim"
+    vimrc="$TMUP_HOME/envs/$1/.vimrc"
+    vim_dir="$TMUP_HOME/envs/$1/.vim"
 
     if [ -d $vim_dir ]; then
         echo "symlinking $vim_dir to $HOME/.vim"
@@ -64,8 +64,8 @@ load_vim_env(){
 
 load_emacs_env(){
     # $1 - name of directory containing environment to load
-    emacs_init="$PAIR_UP_HOME/envs/$1/.emacs"
-    emacs_d="$PAIR_UP_HOME/envs/$1/.emacs.d"
+    emacs_init="$TMUP_HOME/envs/$1/.emacs"
+    emacs_d="$TMUP_HOME/envs/$1/.emacs.d"
 
     if [ -d $emacs_d ]; then
         echo "symlinking $emacs_d to $HOME/.emacs.d"
@@ -90,7 +90,7 @@ load(){
     fi
 
     env_to_load=$1
-    partner_dir="$PAIR_UP_HOME/envs/$env_to_load"
+    partner_dir="$TMUP_HOME/envs/$env_to_load"
 
     if [ -d $partner_dir ]; then
         load_vim_env $env_to_load
@@ -112,21 +112,21 @@ create(){
     [[ $repo_location =~ $name_regexp ]]
     repo_name=${BASH_REMATCH[1]}
 
-    destination=$PAIR_UP_HOME/envs/$env_name/$repo_name
+    destination=$TMUP_HOME/envs/$env_name/$repo_name
     echo "cloning repo $repo_location into $destination"
     git clone $repo_location $destination
 }
 
 implode(){
-    rm -rf .pair_up
+    rm -rf .tmup
     exit
 }
 
 update(){
-    repo_to_update=$HOME/.pair_up
+    repo_to_update=$HOME/.tmup
     env_name=$1
     if [ $1 ]; then
-        repo_to_update=$(find $HOME/.pair_up/envs/$env_name -name .git | sed 's/\.git$//')
+        repo_to_update=$(find $HOME/.tmup/envs/$env_name -name .git | sed 's/\.git$//')
     fi
     echo "Updating $repo_to_update"
     cd $repo_to_update && git pull --rebase origin master
